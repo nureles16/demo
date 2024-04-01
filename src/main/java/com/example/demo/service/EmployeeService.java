@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -33,5 +34,29 @@ public class EmployeeService {
     }
     public void deleteEmployee(Long id){
         employeeRepo.deleteEmployeeById(id);
+    }
+    public Employee updateEmployeeFields(Long id, Map<String, Object> fields){
+        Employee employee = employeeRepo.findEmployeeById(id)
+                .orElseThrow(() -> new UserNotFoundException("User by id " + id + " not found"));
+        fields.forEach((key, value) -> {
+            switch (key) {
+                case "name":
+                    employee.setName((String) value);
+                    break;
+                case "email":
+                    employee.setEmail((String) value);
+                    break;
+                case "phone":
+                    employee.setPhone((String) value);
+                    break;
+                case "jobTitle":
+                    employee.setJobTitle((String) value);
+                    break;
+                case "imageUrl":
+                    employee.setImageUrl((String) value);
+                    break;
+            }
+        });
+        return employeeRepo.save(employee);
     }
 }
