@@ -1,7 +1,7 @@
 package com.example.demo.model;
 
-import jakarta.persistence.*;
 
+import javax.persistence.*;
 import java.io.Serializable;
 @Entity
 public class Employee implements Serializable {
